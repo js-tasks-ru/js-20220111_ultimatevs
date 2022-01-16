@@ -5,5 +5,13 @@
  * @returns {string[]}
  */
 export function sortStrings(arr, param = 'asc') {
-
+    const arrCopy = [...arr];
+    let res = [];
+    res = arrCopy.sort((a, b) => a.localeCompare(b, 'ru-en-u-kf-upper'));
+    if (param === 'asc' || param === 'desc') {
+        return param === 'asc' ? res : res.reverse();
+    }
+    else {
+        return 'Error: type of sort can be only asc or desc';
+    }
 }
