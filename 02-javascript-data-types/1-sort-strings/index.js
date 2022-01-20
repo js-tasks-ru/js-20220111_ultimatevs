@@ -6,12 +6,10 @@
  */
 export function sortStrings(arr, param = 'asc') {
     const arrCopy = [...arr];
-    let res = [];
-    res = arrCopy.sort((a, b) => a.localeCompare(b, 'ru-en-u-kf-upper'));
-    if (param === 'asc' || param === 'desc') {
-        return param === 'asc' ? res : res.reverse();
+    if (param === 'asc') {
+        return arrCopy.sort((a, b) => a.localeCompare(b, 'ru-en-u-kf-upper'));
     }
-    else {
-        return 'Error: type of sort can be only asc or desc';
+    else if (param === 'desc') {
+        return arrCopy.sort((a, b) => b.localeCompare(a, 'ru-en-u-kf-upper'));
     }
 }

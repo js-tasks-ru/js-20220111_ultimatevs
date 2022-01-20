@@ -4,5 +4,24 @@
  * @returns {function} - function-getter which allow get value from object by set path
  */
 export function createGetter(path) {
-
+    return function(obj) {
+        const arr = path.split('.');
+        if(arr.length === 1) {
+            return obj[path];
+        }
+        let copyObj = obj;
+        let nextValue = {};
+        for(let i = 0; i < arr.length; i ++) {
+            if(arr[i] in copyObj) {
+                if(i === arr.length - 1) {
+                    return copyObj[arr[i]];
+                }
+                nextValue = copyObj[arr[i]];
+                copyObj = nextValue;
+            }
+            else {
+                return undefined;
+            }
+        }
+    }
 }
