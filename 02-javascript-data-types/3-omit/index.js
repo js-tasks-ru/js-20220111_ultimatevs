@@ -6,7 +6,11 @@
  */
 export const omit = (obj, ...fields) => {
     const arr = Object.entries(obj);
-    let result = [];
-    result = arr.filter(([k, v]) => fields.every(key => key !== k));
-    return Object.fromEntries(result);
+    const result = {};
+    for(let [key, value] of arr) {
+        if(!fields.includes(key)) {
+            result[key] = value;
+        }
+    }
+    return result;
 };

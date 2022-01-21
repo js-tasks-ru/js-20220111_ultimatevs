@@ -6,13 +6,11 @@
  */
 export const pick = (obj, ...fields) => {
     const arr = Object.entries(obj);
-    let result = [];
-    let newElement = [];
-    for(let key of fields) {
-        newElement = arr.find(el => el[0] === key);
-        if(newElement) {
-            result.push(newElement);
+    const result = {};
+    for(let [key, value] of arr) {
+        if(fields.includes(key)) {
+            result[key] = value;
         }
     }
-    return Object.fromEntries(result);
+    return result;
 };

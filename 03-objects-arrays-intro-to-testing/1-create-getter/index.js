@@ -4,8 +4,8 @@
  * @returns {function} - function-getter which allow get value from object by set path
  */
 export function createGetter(path) {
+    const arr = path.split('.');
     return function(obj) {
-        const arr = path.split('.');
         if(arr.length === 1) {
             return obj[path];
         }
@@ -20,7 +20,7 @@ export function createGetter(path) {
                 copyObj = nextValue;
             }
             else {
-                return undefined;
+                return;
             }
         }
     }
