@@ -9,19 +9,13 @@ export function createGetter(path) {
         if(arr.length === 1) {
             return obj[path];
         }
-        let copyObj = obj;
-        let nextValue = {};
-        for(let i = 0; i < arr.length; i ++) {
-            if(arr[i] in copyObj) {
-                if(i === arr.length - 1) {
-                    return copyObj[arr[i]];
-                }
-                nextValue = copyObj[arr[i]];
-                copyObj = nextValue;
-            }
-            else {
+        let result = obj;
+        for (let key of arr) {
+            if(result[key] === undefined) {
                 return;
             }
+            result = result[key];
         }
+        return result;
     }
 }
