@@ -1,6 +1,7 @@
 export default class NotificationMessage {
 
     static subElements = null;
+    timer;
 
     constructor(message = '', {
         duration = 0,
@@ -53,12 +54,14 @@ export default class NotificationMessage {
         targetElement ? targetElement.append(this.element) : document.body.append(this.element);
 
     
-        setTimeout(() => {
+        this.timer = setTimeout(() => {
             this.destroy()
         }, this.duration);
     }
 
     remove() {
+        clearTimeout(this.timer);
+        
         if(this.element) {
             this.element.remove();
         }

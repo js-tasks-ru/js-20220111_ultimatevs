@@ -1,11 +1,17 @@
 export default class ColumnChart {
 
-    constructor(columnChartData) {
-        this.data = columnChartData?.data || [];
-        this.label = columnChartData?.label || '';
-        this.link = columnChartData?.link || '';
-        this.value = columnChartData?.value || 0;
-        this.formatHeading = columnChartData?.formatHeading || function(data) { return data };
+    constructor({
+        data = [], 
+        label = '',
+        link = '',
+        value = '',
+        formatHeading = (data) => data
+    } = {}) {
+        this.data = data;
+        this.label = label;
+        this.link = link;
+        this.value = value;
+        this.formatHeading = formatHeading;
 
         this.chartHeight = 50;
 
@@ -61,7 +67,7 @@ export default class ColumnChart {
         const histogram = this.element.querySelector('[data-element="body"]');
         histogram.innerHTML = '';
         const arr = this.getColumnProps();
-        for(let item of arr) {
+        for(const item of arr) {
             const bar = document.createElement('div');
             bar.style.setProperty('--value', item.value);
             bar.setAttribute('data-tooltip', item.percent);
