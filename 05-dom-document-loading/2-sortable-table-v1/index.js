@@ -43,12 +43,6 @@ export default class SortableTable {
     this.element = element.firstElementChild;
 
     this.subElements = this.getSubElements();
-
-    const columns = this.element.querySelectorAll('[data-id]');
-
-    columns.forEach(column => {
-      column.dataset.order = '';
-    });
   }
 
   getSubElements() {
@@ -95,31 +89,34 @@ export default class SortableTable {
 
   sort(field, order) {
     const sortedData = [...this.data];
+    const currentHeadOfColumn = this.element.querySelector(`[data-id=${field}]`);
 
-    const currentHeadOfColumn = this.element.querySelector(`[data-id = ${field}]`);
-    currentHeadOfColumn.dataset.order = order;
+    const columns = this.element.querySelectorAll('[data-id]');
+    columns.forEach((col) => {
+      col.dataset.order = '';
+    })
+
+    currentHeadOfColumn.dataset.order = order; 
 
     const currentColumn = this.headerConfig.find(item => item.id === field);
     const sortType = currentColumn.sortType;
 
-    if(sortType === 'number') {
-      if(order === 'asc') {
-        sortedData.sort((a, b) => a[field]-b[field]);
-      }
+    const orderType = {
+      asc: 1,
+      desc: -1
+    }
+    const destination = orderType[order];
 
-      else if(order === 'desc') {
-        sortedData.sort((a, b) => b[field]-a[field]);
-      }
+    if(sortType === 'number') {
+      sortedData.sort((a, b) => destination * (a[field] - b[field]));
     }
 
-    else if(sortType === 'string'){
-      if(order === 'asc') {
-        sortedData.sort((a, b) => a[field].localeCompare(b[field], 'ru-en-u-kf-upper'));
-      }
+    else if(sortType === 'string') {
+      sortedData.sort((a, b) => destination * (a[field].localeCompare(b[field], 'ru-en-u-kf-upper')));
+    }
 
-      else if(order === 'desc') {
-        sortedData.sort((a, b) => b[field].localeCompare(a[field], 'ru-en-u-kf-upper'));
-      }
+    else {
+      sortedData.sort((a, b) => destination * (a[field] - b[field]));
     }
 
     this.subElements.body.innerHTML = this.getTableBody(sortedData);
