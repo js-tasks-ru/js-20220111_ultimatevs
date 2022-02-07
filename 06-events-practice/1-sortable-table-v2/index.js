@@ -45,13 +45,15 @@ export default class SortableTable {
   handleClick = (event) => {
     const th = event.target.closest('.sortable-table__cell[data-id]');
 
-    if(th.dataset.sortable === 'false') {
-      return;
+    if(th) {
+      if(th.dataset.sortable === 'false') {
+        return;
+      }
+  
+      const field = th.dataset.id;
+      const order = th.dataset.order === 'desc' ? 'asc' : 'desc'; 
+      this.sort(field, order);
     }
-
-    const field = th.dataset.id;
-    const order = th.dataset.order === 'desc' ? 'asc' : 'desc'; 
-    this.sort(field, order);
   }
 
   render() {
@@ -112,9 +114,11 @@ export default class SortableTable {
   }
 
   sort(field, order) {
-    if (this.isSortLocally) {
+    if(this.isSortLocally) {
       this.sortOnClient(field, order);
-    } else if(!this.isSortLocally) {
+    } 
+
+    else if(!this.isSortLocally) {
       this.sortOnServer(field, order);
     }
   }
