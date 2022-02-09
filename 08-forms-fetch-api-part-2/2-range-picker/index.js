@@ -257,7 +257,7 @@ export default class RangePicker {
 
     remove() {
         this.element.remove();
-        document.removeEventListener('click', this.onDocumentClick);
+        document.removeEventListener('click', this.onDocumentClick, true);
     }
 
     destroy() {
