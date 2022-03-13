@@ -111,7 +111,7 @@ export default class SortableList {
             const {top, height} = nextElement.getBoundingClientRect();
             const center = top + (height / 2);
 
-            if(clientY < center) {
+            if(clientY > center) {
                 return nextElement.after(this.placeholder);
             }
         }
@@ -125,6 +125,7 @@ export default class SortableList {
     remove() {
         this.element.remove();
     }
+    
     destroy() {
         this.remove();
         this.element = null;
